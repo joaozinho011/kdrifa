@@ -36,6 +36,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       }
     </style>
 
+        <style>
+        /* Responsividade: largura de 90% da tela e altura ajustada automaticamente */
+        .video-container iframe {
+            width: 90vw; /* 90% da largura da tela */
+            height: calc(90vw * (16 / 9)); /* Proporção de altura 16:9 invertida */
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Altura total da tela */
+        }
+    </style>
+
   </head>
   <body>
     
@@ -58,6 +73,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
              <p style = "font-family:Zapf-Chancery">
   ⬇️⬇️⬇️
 </p>
+
+            <!-- VSL -->
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/wi5lbmZrayg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
             <!-- Botão -->
             <div id="cta1" class="mt-4 d-none">
               <a href="https://api.whatsapp.com/send?phone=5535987053223&text=Quero%20saber%20mais%20sobre%20a%20*Start*%20*160*..." class="img-fluid" style="text-decoration: none;">
