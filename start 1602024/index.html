@@ -35,7 +35,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         background-blend-mode: darken;
       }
     </style>
+    <style>
+        /* Centralizar o vídeo e aplicar estilo responsivo */
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Usar toda a altura da página */
+        }
 
+        iframe {
+            width: 360px; /* Largura típica de tela de celular */
+            height: 640px; /* Altura para manter a proporção 9:16 */
+        }
+    </style>
 
   </head>
   <body>
