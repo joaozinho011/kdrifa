@@ -50,6 +50,69 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
     </style>
 
+    <style>
+        /* Estilização básica da página */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Estilo para o vídeo */
+        .video-container iframe {
+            width: 360px;
+            height: 640px;
+            margin-bottom:50px; /* Espaço entre o vídeo e o botão */
+        }
+
+        /* Estilização do botão maior */
+        .btn-continuar {
+            padding: 20px 50px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            animation: pulse 1.5s infinite; /* Animação de pulsação */
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Efeito de pulsação */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1); /* Aumenta o botão */
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Efeito hover (ao passar o mouse) */
+        .btn-continuar:hover {
+            background-color: #e64a19;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Efeito ao pressionar o botão */
+        .btn-continuar:active {
+            transform: scale(0.95); /* Botão "aperta" levemente */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
   </head>
   <body>
     
@@ -74,7 +137,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </p>
 
             <!-- VSL -->
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/wi5lbmZrayg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/wi5lbmZrayg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <!-- Botão de continuar com efeito pulsante -->
+    <button class="btn-continuar">Continuar</button>
 
             <!-- Botão -->
             <div id="cta1" class="mt-4 d-none">
