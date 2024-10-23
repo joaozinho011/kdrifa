@@ -37,18 +37,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
     <style>
         /* Centralizar o vídeo e aplicar estilo responsivo */
-.video-container {
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    height: 100vh; /* Ajusta a altura do contêiner para 100% da tela */
-}
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Usar toda a altura da página */
+        }
 
-.video-container iframe {
-    width: 80%; /* Ajuste o tamanho do vídeo conforme necessário */
-    height: 450px; /* Defina a altura do vídeo conforme desejado */
-}
-
+        iframe {
+            width: 360px; /* Largura típica de tela de celular */
+            height: 640px; /* Altura para manter a proporção 9:16 */
+        }
     </style>
 
     <style>
@@ -68,7 +67,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .video-container iframe {
             width: 360px;
             height: 640px;
-            margin-bottom:50px; /* Espaço entre o vídeo e o botão */
+            margin-bottom:30px; /* Espaço entre o vídeo e o botão */
         }
 
         /* Estilização do botão maior */
@@ -119,6 +118,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KWN2TG9M"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+        <img class="img-fluid" src="./assets/img/celu.png">
                        
 
             <!-- VSL -->
