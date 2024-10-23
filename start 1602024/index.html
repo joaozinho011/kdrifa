@@ -37,17 +37,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
     <style>
         /* Centralizar o vídeo e aplicar estilo responsivo */
-        .video-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; /* Usar toda a altura da página */
-        }
+.video-container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Ajusta a altura do contêiner para 100% da tela */
+}
 
-        iframe {
-            width: 360px; /* Largura típica de tela de celular */
-            height: 640px; /* Altura para manter a proporção 9:16 */
-        }
+.video-container iframe {
+    width: 80%; /* Ajuste o tamanho do vídeo conforme necessário */
+    height: 450px; /* Defina a altura do vídeo conforme desejado */
+}
+
     </style>
 
     <style>
@@ -71,34 +72,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         }
 
         /* Estilização do botão maior */
-        .btn-continuar {
-            padding: 20px 50px;
-            background-color: #ff5722;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            animation: pulse 1.5s infinite; /* Animação de pulsação */
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
+.btn-continuar {
+    display: inline-block;
+    padding: 20px 40px; /* Aumenta o espaço interno do botão */
+    background-color: #4CAF50; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    text-align: center; /* Centraliza o texto */
+    text-decoration: none; /* Remove sublinhado */
+    border-radius: 10px; /* Bordas arredondadas */
+    font-size: 22px; /* Aumenta o tamanho da fonte */
+    font-weight: bold; /* Torna o texto mais destacado */
+    /* Animação de pulsação */
+    animation: pulsar 1s infinite;
+}
 
-        /* Efeito de pulsação */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1); /* Aumenta o botão */
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
+@keyframes pulsar {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+
 
         /* Efeito hover (ao passar o mouse) */
         .btn-continuar:hover {
@@ -126,15 +120,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
                        
-            
-
-            <img class="img-fluid" src="./assets/img/celu.png">
-
-<p style = "font-family:Zapf-Chancery">Link da ação na bio🔥
-</p>
-             <p style = "font-family:Zapf-Chancery">
-  ⬇️⬇️⬇️
-</p>
 
             <!-- VSL -->
     <div class="video-container">
@@ -142,14 +127,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <!-- Botão de continuar com efeito pulsante -->
-    <button class="btn-continuar">Continuar</button>
-
-            <!-- Botão -->
-            <div id="cta1" class="mt-4 d-none">
-              <a href="https://api.whatsapp.com/send?phone=5535987053223&text=Quero%20saber%20mais%20sobre%20a%20*Start*%20*160*..." class="img-fluid" style="text-decoration: none;">
-              <img class="img-fluid" src="./assets/img/botaooo.png">
-              </a>
-            </div>
+   <a href="https://exemplo.com" class="btn-continuar">
+    Continuar
+</a>
             
             <!-- Termos de Uso e Política de Privacidade -->
             <div class="text-white mt-4"><a href="termos.html" class="text-white">Termos de Uso</a> | <a href="privacidade.html" class="text-white">Política de Privacidade</a></div>
