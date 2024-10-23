@@ -67,7 +67,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .video-container iframe {
             width: 360px;
             height: 640px;
-            margin-bottom:30px; /* Espaço entre o vídeo e o botão */
+            margin-bottom:15px; /* Espaço entre o vídeo e o botão */
         }
 
         /* Estilização do botão maior */
@@ -89,6 +89,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
+}
+
+
+.d-none {
+    display: none; /* Esconde o botão */
 }
 
 
@@ -127,10 +132,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <iframe src="https://www.youtube.com/embed/wi5lbmZrayg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 
-    <!-- Botão de continuar com efeito pulsante -->
-   <a href="https://exemplo.com" class="btn-continuar">
+<!-- Botão de continuar com efeito pulsante -->
+<a href="https://kadedograu.com/sorteio/polo-tsi-fan-160-kit-dos-sonhos-225" id="cta-btn" class="btn-continuar d-none">
     Continuar
 </a>
+
             
             <!-- Termos de Uso e Política de Privacidade -->
             <div class="text-white mt-4"><a href="termos.html" class="text-white">Termos de Uso</a> | <a href="privacidade.html" class="text-white">Política de Privacidade</a></div>
@@ -139,9 +145,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </header>
 
-    <script type="text/javascript">
-      setTimeout(() => {document.getElementById("cta1").classList.remove("d-none")}, 0); // temporização da Call to Action (em milissegundos)
-    </script>
+<script type="text/javascript">
+    // Define o tempo (em milissegundos) para exibir o botão. Aqui configurado para 5000ms (5 segundos)
+    setTimeout(() => {
+        document.getElementById("cta-btn").classList.remove("d-none");
+    }, 5000); // Altere o valor para ajustar o tempo de atraso
+</script>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
