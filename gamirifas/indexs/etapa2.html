@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Funil da Sorte - Etapa 1</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Notificação de Comissão de Vendas */
+    .notificacao-comissao {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #28a745; /* Cor verde, parecida com as notificações de comissões */
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 15px 30px;
+      border-radius: 10px;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 2s ease-out;
+      z-index: 9999;
+    }
+
+    .container {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 1s ease-in-out;
+    }
+
+    .headline {
+      position: absolute;
+      top: 30px;
+      color: #fff;
+      font-size: 26px;
+      font-weight: bold;
+      text-align: center;
+      width: 80%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .saldo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 15px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 16px;
+      backdrop-filter: blur(5px);
+    }
+
+    .botao-curtir {
+      position: absolute;
+      bottom: 40px;
+      background-color: #ff004f;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: none;
+      font-size: 18px;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      cursor: pointer;
+    }
+
+    .botao-curtir.mostrar {
+      opacity: 1;
+    }
+
+    .progresso {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background-color: #ff004f;
+      animation: carregar 5s linear forwards;
+    }
+
+    @keyframes carregar {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    .recompensa {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: rgba(0, 200, 83, 0.8);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 10px;
+      visibility: hidden;
+      animation: showRecompensa 2s forwards;
+    }
+
+    @keyframes showRecompensa {
+      0% { visibility: hidden; opacity: 0; }
+      50% { opacity: 1; }
+      100% { visibility: hidden; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Notificação de Comissão de Vendas -->
+  <div class="notificacao-comissao">🎉 Você recebeu uma comissão de R$10,00 pela sua venda!</div>
+
+  <div class="container">
+    <!-- Vídeo Incorporado do YouTube -->
+    <iframe id="video1" src="https://www.youtube.com/embed/ID_DO_VIDEO_AQUI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    <div class="headline"></div>
+
+    <div class="progresso"></div>
+    <div id="saldo" class="saldo">💰 Saldo: R$2,00</div>
+
+    <button id="curtirBtn" class="botao-curtir">❤️ Curtir e Avançar</button>
+
+    <div id="recompensa" class="recompensa">Você recebeu R$2,00 por interagir! 🎉</div>
+  </div>
+
+  <!-- Som de Dinheiro -->
+  <audio id="money-sound" src="path/to/money-sound.mp3" preload="auto"></audio>
+
+  <script>
+    // Função para tocar o som de dinheiro
+    function playMoneySound() {
+      var moneySound = document.getElementById('money-sound');
+      moneySound.currentTime = 0;  // Reinicia o som para tocar de novo
+      moneySound.play();
+    }
+
+    // Função para exibir a notificação
+    function showNotification() {
+      const notificacao = document.querySelector('.notificacao-comissao');
+      notificacao.style.visibility = 'visible';
+      notificacao.style.opacity = 1;
+      setTimeout(() => {
+        notificacao.style.visibility = 'hidden';
+        notificacao.style.opacity = 0;
+      }, 3000);
+    }
+
+    // Função para o efeito de saldo crescente com som
+    function showCrescendoSaldo(initialValue, finalValue) {
+      var saldoElement = document.getElementById('saldo');
+      var currentValue = initialValue;
+      var interval = setInterval(function() {
+        if (currentValue < finalValue) {
+          currentValue += 0.1;
+          saldoElement.innerText = `💰 Saldo: R$${currentValue.toFixed(2)}`;
+          playMoneySound();  // Tocar o som de dinheiro a cada incremento
+        } else {
+          clearInterval(interval);
+          saldoElement.innerText = `💰 Saldo: R$${finalValue.toFixed(2)}`;
+        }
+      }, 50);
+    }
+
+    // Exibir a notificação e começar o efeito de saldo
+    window.onload = () => {
+      showNotification();
+      showCrescendoSaldo(2, 10);  // Inicia o saldo em R$0,00 e vai até R$10,00
+    }
+
+    setTimeout(() => {
+      document.getElementById('curtirBtn').classList.add('mostrar');
+    }, 5000);
+
+    document.getElementById('curtirBtn').addEventListener('click', () => {
+      const recompensa = document.getElementById('recompensa');
+      recompensa.style.visibility = "visible";
+      document.getElementById('video1').style.transform = "translateY(-100%)";
+      setTimeout(() => {
+        window.location.href = "etapa3.html";
+      }, 1000);
+    });
+  </script>
+
+</body>
+</html>
