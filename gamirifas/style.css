@@ -1,0 +1,76 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #000;
+  color: #fff;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.saldo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 15px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 16px;
+  backdrop-filter: blur(5px);
+}
+
+.botao-curtir {
+  position: absolute;
+  bottom: 40px;
+  background-color: #ff004f;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 50px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+}
+
+.botao-curtir.mostrar {
+  opacity: 1;
+}
+
+.progresso {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background-color: #ff004f;
+  animation: carregar 5s linear forwards;
+}
+
+@keyframes carregar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
