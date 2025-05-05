@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Funil da Sorte - Etapa 1</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: #000;
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
     }
 
     .notificacao-inicial {
@@ -23,7 +23,7 @@
       font-weight: 500;
       padding: 15px 20px;
       border-radius: 18px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -48,41 +48,33 @@
     }
 
     .container {
-      min-height: 100vh;
+      height: 100vh;
       width: 100%;
-      padding: 10px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: flex-start;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .video-wrapper {
-      width: 85%;
-      aspect-ratio: 9 / 16;
-      margin-top: 60px;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+      align-items: center;
+      flex-direction: column;
+      padding-top: 60px;
+      box-sizing: border-box;
     }
 
     iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+      width: 85vw;
+      height: 45vh;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 20px;
     }
 
     .headline {
-      margin-top: 12px;
-      font-size: 17px;
-      font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.6);
       color: #fff;
-      padding: 10px 14px;
-      border-radius: 10px;
+      font-size: 20px;
+      font-weight: bold;
       text-align: center;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 15px;
     }
 
     .saldo {
@@ -93,19 +85,18 @@
       padding: 10px 15px;
       border-radius: 30px;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 16px;
       color: #fff;
       backdrop-filter: blur(5px);
     }
 
     .botao-curtir {
-      margin-top: 16px;
       background-color: #ff004f;
       color: white;
-      padding: 14px 24px;
-      border-radius: 40px;
+      padding: 15px 30px;
+      border-radius: 50px;
       border: none;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       opacity: 0;
       transition: opacity 0.5s ease;
@@ -126,12 +117,8 @@
     }
 
     @keyframes carregar {
-      from {
-        width: 0%;
-      }
-      to {
-        width: 100%;
-      }
+      from { width: 0%; }
+      to { width: 100%; }
     }
 
     .recompensa {
@@ -150,46 +137,31 @@
     }
 
     @keyframes showRecompensa {
-      0% {
-        visibility: hidden;
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        visibility: hidden;
-        opacity: 0;
-      }
+      0% { visibility: hidden; opacity: 0; }
+      50% { opacity: 1; }
+      100% { visibility: hidden; opacity: 0; }
     }
   </style>
 </head>
 <body>
+
   <!-- Áudio de notificação -->
   <audio id="somNotificacao" preload="auto">
-    <source src="audio/cartinha.mp3" type="audio/mpeg" />
+    <source src="audio/tigrinho.ogg" type="audio/ogg">
   </audio>
 
   <!-- Notificação Inicial -->
   <div class="notificacao-inicial">
-    <img src="https://cdn-icons-png.flaticon.com/512/545/545705.png" alt="icone" />
+    <img src="https://cdn-icons-png.flaticon.com/512/545/545705.png" alt="icone">
     <span id="textoNotificacao">VOCÊ JÁ GANHOU R$2,00!</span>
   </div>
 
-  <div class="container">
-    <div class="saldo">💰 Saldo: R$2,00</div>
-    <div class="video-wrapper">
-      <iframe
-        id="video1"
-        src="https://www.youtube.com/embed/nm9QwsV9GO4"
-        frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    </div>
+  <div class="saldo">💰 Saldo: R$2,00</div>
 
-    <div class="headline"></div>
-    <div class="progresso"></div>
+  <div class="container">
+    <div class="headline">ASSISTA O VÍDEO</div>
+
+    <iframe id="video1" src="https://www.youtube.com/embed/nm9QwsV9GO4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
     <button id="curtirBtn" class="botao-curtir">❤️ Curtir e Avançar</button>
     <div id="recompensa" class="recompensa">Você recebeu R$2,00 por interagir! 🎉</div>
@@ -203,29 +175,29 @@
 
     function obterCidade() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        navigator.geolocation.getCurrentPosition(function(position) {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
 
           fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`)
-            .then((response) => response.json())
-            .then((data) => {
-              const cidade = data.results[0].components.city || 'sua cidade';
+            .then(response => response.json())
+            .then(data => {
+              const cidade = data.results[0].components.city || "sua cidade";
               textoNotificacao.textContent = `📍 Liberado para ${cidade}!`;
             });
         });
       }
 
-      notificacao.classList.add('mostrar');
+      notificacao.classList.add("mostrar");
       som.play().catch(() => {});
       setTimeout(() => {
-        notificacao.classList.remove('mostrar');
+        notificacao.classList.remove("mostrar");
       }, 5000);
     }
 
     window.onload = () => {
       obterCidade();
-    };
+    }
 
     setTimeout(() => {
       document.getElementById('curtirBtn').classList.add('mostrar');
@@ -233,9 +205,9 @@
 
     document.getElementById('curtirBtn').addEventListener('click', () => {
       const recompensa = document.getElementById('recompensa');
-      recompensa.style.visibility = 'visible';
+      recompensa.style.visibility = "visible";
       setTimeout(() => {
-        window.location.href = 'etapa2.html';
+        window.location.href = "etapa2.html";
       }, 1000);
     });
   </script>
