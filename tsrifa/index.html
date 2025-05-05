@@ -9,8 +9,7 @@
     .notificacao-inicial {
       position: fixed;
       top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
+      right: 15px; /* Alterado de left: 50% para right: 15px */
       background-color: #1c1c1e;
       color: #fff;
       font-size: 16px;
@@ -27,12 +26,13 @@
       visibility: hidden;
       transition: opacity 0.4s ease, transform 0.4s ease;
       z-index: 9999;
+      transform: translateY(-20px); /* ajustado para efeito mais sutil */
     }
 
     .notificacao-inicial.mostrar {
       visibility: visible;
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
+      transform: translateY(0); /* remove deslocamento para cima */
     }
 
     .notificacao-inicial img {
@@ -153,7 +153,7 @@
   <!-- Notificação Inicial -->
   <div class="notificacao-inicial">
     <img src="https://cdn-icons-png.flaticon.com/512/545/545705.png" alt="icone">
-    <span id="textoNotificacao">🎉 Bem-vindo! Você pode ganhar até R$10,00 ao interagir com os vídeos!</span>
+    <span id="textoNotificacao">VOCÊ JÁ GANHOU R$2,00!</span>
   </div>
 
   <div class="container">
@@ -183,18 +183,17 @@
             .then(response => response.json())
             .then(data => {
               const cidade = data.results[0].components.city || "sua cidade";
-              textoNotificacao.textContent = `📍 Você está em ${cidade}. Ganhe até R$10,00 interagindo!`;
+              textoNotificacao.textContent = `📍 Liberado para ${cidade}!`;
             });
         });
       }
 
       // Mostra notificação com som
       notificacao.classList.add("mostrar");
-      som.play().catch(() => {}); // evitar erros se o autoplay for bloqueado
-
+      som.play().catch(() => {});
       setTimeout(() => {
         notificacao.classList.remove("mostrar");
-      }, 5000);
+      }, 3000);
     }
 
     window.onload = () => {
