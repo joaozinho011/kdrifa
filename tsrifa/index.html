@@ -4,34 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Funil da Sorte - Etapa 1</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
       background-color: #000;
-      color: white;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-      padding: 16px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      font-family: sans-serif;
     }
 
     .notificacao-inicial {
@@ -40,15 +19,16 @@
       right: 15px;
       background-color: #1c1c1e;
       color: #fff;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 500;
-      padding: 12px 16px;
+      padding: 15px 20px;
       border-radius: 18px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
       gap: 10px;
       max-width: 90%;
+      width: fit-content;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.4s ease, transform 0.4s ease;
@@ -63,46 +43,29 @@
     }
 
     .notificacao-inicial img {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
-    .saldo {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
-      color: #fff;
-      backdrop-filter: blur(5px);
-      z-index: 2;
-    }
-
-    .progresso {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 4px;
-      background-color: #ff004f;
-      animation: carregar 5s linear forwards;
-      z-index: 3;
-    }
-
-    @keyframes carregar {
-      from { width: 0%; }
-      to { width: 100%; }
+    .container {
+      min-height: 100vh;
+      width: 100%;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow: hidden;
     }
 
     .video-wrapper {
-      width: 100%;
+      width: 85%;
       aspect-ratio: 9 / 16;
-      margin-top: 50px;
+      margin-top: 60px;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 0 12px rgba(255,255,255,0.1);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
     }
 
     iframe {
@@ -112,19 +75,34 @@
     }
 
     .headline {
-      margin-top: 16px;
-      font-size: 18px;
+      margin-top: 12px;
+      font-size: 17px;
       font-weight: bold;
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
       padding: 10px 14px;
       border-radius: 10px;
+      text-align: center;
+    }
+
+    .saldo {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 15px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 15px;
+      color: #fff;
+      backdrop-filter: blur(5px);
     }
 
     .botao-curtir {
-      margin-top: 24px;
+      margin-top: 16px;
       background-color: #ff004f;
       color: white;
-      padding: 14px 26px;
+      padding: 14px 24px;
       border-radius: 40px;
       border: none;
       font-size: 16px;
@@ -138,13 +116,33 @@
       opacity: 1;
     }
 
+    .progresso {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background-color: #ff004f;
+      animation: carregar 5s linear forwards;
+    }
+
+    @keyframes carregar {
+      from {
+        width: 0%;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
     .recompensa {
-      position: fixed;
-      bottom: 100px;
-      padding: 16px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
       background-color: rgba(0, 200, 83, 0.8);
       color: white;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: bold;
       border-radius: 10px;
       visibility: hidden;
@@ -152,40 +150,48 @@
     }
 
     @keyframes showRecompensa {
-      0% { visibility: hidden; opacity: 0; }
-      50% { opacity: 1; }
-      100% { visibility: hidden; opacity: 0; }
-    }
-
-    audio {
-      display: none;
+      0% {
+        visibility: hidden;
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        visibility: hidden;
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
-
   <!-- Áudio de notificação -->
   <audio id="somNotificacao" preload="auto">
-    <source src="audio/tigrinho-notificacao.mp3" type="audio/mpeg" />
+    <source src="audio/cartinha.mp3" type="audio/mpeg" />
   </audio>
 
+  <!-- Notificação Inicial -->
   <div class="notificacao-inicial">
     <img src="https://cdn-icons-png.flaticon.com/512/545/545705.png" alt="icone" />
     <span id="textoNotificacao">VOCÊ JÁ GANHOU R$2,00!</span>
   </div>
 
-  <div class="saldo">💰 Saldo: R$2,00</div>
-  <div class="progresso"></div>
-
   <div class="container">
+    <div class="saldo">💰 Saldo: R$2,00</div>
     <div class="video-wrapper">
-      <iframe src="https://www.youtube.com/embed/nm9QwsV9GO4" allowfullscreen></iframe>
+      <iframe
+        id="video1"
+        src="https://www.youtube.com/embed/nm9QwsV9GO4"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
     </div>
 
-    <div class="headline">ASSISTA O VÍDEO PARA GANHAR SUA RECOMPENSA</div>
+    <div class="headline">ASSISTA O VÍDEO</div>
+    <div class="progresso"></div>
 
     <button id="curtirBtn" class="botao-curtir">❤️ Curtir e Avançar</button>
-
     <div id="recompensa" class="recompensa">Você recebeu R$2,00 por interagir! 🎉</div>
   </div>
 
@@ -197,29 +203,29 @@
 
     function obterCidade() {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
 
           fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`)
-            .then(response => response.json())
-            .then(data => {
-              const cidade = data.results[0].components.city || "sua cidade";
+            .then((response) => response.json())
+            .then((data) => {
+              const cidade = data.results[0].components.city || 'sua cidade';
               textoNotificacao.textContent = `📍 Liberado para ${cidade}!`;
             });
         });
       }
 
-      notificacao.classList.add("mostrar");
+      notificacao.classList.add('mostrar');
       som.play().catch(() => {});
       setTimeout(() => {
-        notificacao.classList.remove("mostrar");
+        notificacao.classList.remove('mostrar');
       }, 5000);
     }
 
     window.onload = () => {
       obterCidade();
-    }
+    };
 
     setTimeout(() => {
       document.getElementById('curtirBtn').classList.add('mostrar');
@@ -227,9 +233,9 @@
 
     document.getElementById('curtirBtn').addEventListener('click', () => {
       const recompensa = document.getElementById('recompensa');
-      recompensa.style.visibility = "visible";
+      recompensa.style.visibility = 'visible';
       setTimeout(() => {
-        window.location.href = "etapa2.html";
+        window.location.href = 'etapa2.html';
       }, 1000);
     });
   </script>
