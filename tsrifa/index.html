@@ -6,7 +6,6 @@
   <title>Funil da Sorte - Etapa 1</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Estilo da Notificação (estilo iOS / Apple) */
     .notificacao-inicial {
       position: fixed;
       top: 15px;
@@ -146,6 +145,11 @@
 </head>
 <body>
 
+  <!-- Áudio de notificação -->
+  <audio id="somNotificacao" preload="auto">
+    <source src="https://notificationsounds.com/storage/sounds/file-sounds-1172-pristine.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- Notificação Inicial -->
   <div class="notificacao-inicial">
     <img src="https://cdn-icons-png.flaticon.com/512/545/545705.png" alt="icone">
@@ -164,9 +168,10 @@
   </div>
 
   <script>
-    const apiKey = '42d8a209aeaf4f3fab9fc37e60ee761c'; // Substitua pela sua chave da OpenCage
+    const apiKey = '42d8a209aeaf4f3fab9fc37e60ee761c';
     const notificacao = document.querySelector('.notificacao-inicial');
     const textoNotificacao = document.getElementById('textoNotificacao');
+    const som = document.getElementById('somNotificacao');
 
     function obterCidade() {
       if (navigator.geolocation) {
@@ -182,7 +187,11 @@
             });
         });
       }
+
+      // Mostra notificação com som
       notificacao.classList.add("mostrar");
+      som.play().catch(() => {}); // evitar erros se o autoplay for bloqueado
+
       setTimeout(() => {
         notificacao.classList.remove("mostrar");
       }, 5000);
