@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rifa Moto Zero KM - Pré-site Gamificado</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,15 +14,18 @@
       padding: 0;
       color: #fff;
       text-align: center;
+      overflow-x: hidden;
     }
     header {
       background-color: rgba(0,0,0,0.6);
       padding: 20px;
       margin-bottom: 20px;
     }
+    h1, h2 {
+      margin: 0 0 15px;
+    }
     h1 {
       font-size: 26px;
-      margin: 0;
     }
     .container {
       background-color: rgba(0,0,0,0.5);
@@ -29,14 +33,15 @@
       margin: auto;
       border-radius: 15px;
       padding: 30px 20px;
-      min-height: 300px;
+      min-height: 320px;
+      position: relative;
     }
     .image-container img {
       max-width: 100%;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
-    .benefits, .quiz, .offer {
+    .benefits {
       font-size: 18px;
       line-height: 1.6;
       margin-bottom: 20px;
@@ -79,167 +84,315 @@
       background-color: #00c851;
       transition: width 0.4s ease;
     }
-    label {
-      display: block;
-      margin: 12px 0;
+    /* Caixa surpresa mais realista */
+    #box {
+      width: 180px;
+      height: 180px;
+      background: linear-gradient(145deg, #d8334a, #a82a38);
+      border-radius: 20px;
+      box-shadow:
+        0 10px 20px rgba(168, 42, 56, 0.6),
+        inset 0 5px 10px rgba(255, 120, 120, 0.7),
+        inset 0 -5px 10px rgba(139, 25, 40, 0.9);
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: #fff;
+      font-weight: 700;
+      user-select: none;
+      position: relative;
+      transition: transform 0.5s ease;
+      perspective: 1000px;
+      margin: 30px auto;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 90% 90%;
     }
-    input[type="radio"] {
-      margin-right: 10px;
-      cursor: pointer;
+    #box.opened {
+      transform: rotateY(180deg) scale(1.1);
+      box-shadow: 0 14px 28px rgba(168, 42, 56, 0.8);
+      background: linear-gradient(145deg, #a82a38, #d8334a);
+      color: #ffddde;
+    }
+    /* Fita horizontal */
+    #box::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 28px;
+      background: linear-gradient(90deg, #fff0f0, #fbb0b8, #fff0f0);
+      box-shadow: 0 0 10px rgba(255, 200, 200, 0.7);
+      transform: translateY(-50%);
+      border-radius: 10px;
+      z-index: 2;
+    }
+    /* Fita vertical */
+    #box::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 28px;
+      height: 100%;
+      background: linear-gradient(180deg, #fff0f0, #fbb0b8, #fff0f0);
+      box-shadow: 0 0 10px rgba(255, 200, 200, 0.7);
+      transform: translateX(-50%);
+      border-radius: 10px;
+      z-index: 2;
+    }
+    /* Sombra da fita para profundidade */
+    #box .ribbon-shadow {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 182, 192, 0.5);
+      box-shadow: 0 0 10px rgba(255, 182, 192, 0.7);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    /* Saldo fixo no topo direito */
+    #saldo {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0,200,81,0.85);
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      box-shadow: 0 0 15px rgba(0,200,81,0.7);
+      user-select: none;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 140px;
+      justify-content: center;
+    }
+    /* Avião etapa 4 */
+    #aviator {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      position: relative;
+      overflow: visible;
+    }
+    #plane {
+      width: 100px;
+      height: 100px;
+      background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center/contain;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: bottom 4s ease-out;
+      filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+    }
+    /* Texto bônus + saldo animado */
+    #bonus-amount {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 10px;
+      color: #00c851;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    /* Explicação resgate */
+    #resgate-info {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #fff;
+      font-weight: 600;
+      text-shadow: 0 0 5px rgba(0,200,81,0.7);
+    }
+    /* Foto moto após caixa surpresa */
+    #moto-bilhete {
+      max-width: 100%;
+      max-height: 200px;
+      margin: 20px auto 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      display: block;
+    }
+    /* Botão para ir ao site final */
+    #btnGoSite {
+      background-color: #ff5722;
+      margin-top: 30px;
+    }
+    #btnGoSite:hover {
+      background-color: #e64a19;
     }
   </style>
 
-  <!-- Pixel do Facebook -->
+  <!-- Facebook Pixel (exemplo) -->
   <script>
-    !function(f,b,e,v,n,t,s){
-      if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'PIXEL_ID_AQUI'); // Substitua pelo seu Pixel ID
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID'); // Coloque seu Pixel ID aqui
     fbq('track', 'PageView');
   </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=PIXEL_ID_AQUI&ev=PageView&noscript=1"/>
-  </noscript>
-
 </head>
-
 <body>
-  <header>
-    <h1 id="headline">🎁 Últimas Vagas para a Rifa Moto Zero KM na sua cidade</h1>
-  </header>
 
-  <div class="container">
-    <!-- Barra de progresso -->
+<header>
+  <h1>COMECE ACUMULANDO BÔNUS!</h1>
+  <h2>Ganhe até <span id="bonus-amount">R$200</span> em bônus para o sorteio da XT660</h2>
+</header>
+
+<div id="saldo">Saldo: R$0</div>
+
+<div class="container">
+  <div id="step1">
+    <p class="benefits">
+      Você pode comecar ganhando até <strong>R$200</strong> em bônus para usar no sorteio da XT660! <br />
+      CADA AVANÇO, UMA QUANTIA EM DINHEIRO!
+    </p>
+
+    <div id="box" title="Clique para abrir a caixa surpresa!">
+      🎁
+      <div class="ribbon-shadow"></div>
+    </div>
+
     <div class="progress-bar">
-      <div id="progress" class="progress"></div>
-    </div>
-
-    <!-- Etapa 1 - Inicial -->
-    <div id="step1">
-      <div class="image-container">
-        <img src="imagens/fotoxtsite.jpg" alt="Prêmio da Rifa" />
-      </div>
-      <div class="benefits">
-        ✅ Apenas R$1 por cota<br/>
-        ✅ Sorteio confiável e seguro<br/>
-        ✅ Mais de 300 pessoas já participando hoje!
-      </div>
-      <button id="btnStart" class="cta-button">Começar</button>
-    </div>
-
-    <!-- Etapa 2 - Quiz -->
-    <div id="step2" class="hidden">
-      <div class="quiz">
-        <p><strong>Qual modelo de moto você gostaria de ganhar?</strong></p>
-        <label><input type="radio" name="moto" value="Honda" /> Honda</label>
-        <label><input type="radio" name="moto" value="Yamaha" /> Yamaha</label>
-        <label><input type="radio" name="moto" value="Suzuki" /> Suzuki</label>
-        <label><input type="radio" name="moto" value="Kawasaki" /> Kawasaki</label>
-      </div>
-      <button id="btnQuizNext" class="cta-button" disabled>Próximo</button>
-    </div>
-
-    <!-- Etapa 3 - Oferta bônus -->
-    <div id="step3" class="hidden">
-      <div class="offer">
-        <p>🎉 Parabéns! Você pode ganhar 1 cota bônus grátis se comprar 3 ou mais cotas!</p>
-        <p>Quantas cotas deseja adquirir?</p>
-        <label><input type="radio" name="cotas" value="1" checked /> 1 cota</label>
-        <label><input type="radio" name="cotas" value="3" /> 3 cotas (+1 grátis!)</label>
-        <label><input type="radio" name="cotas" value="5" /> 5 cotas (+2 grátis!)</label>
-      </div>
-      <button id="btnOfferNext" class="cta-button">Continuar</button>
-    </div>
-
-    <!-- Etapa 4 - Final -->
-    <div id="step4" class="hidden">
-      <h2>Quase lá! 🏁</h2>
-      <p>Você está pronto para participar da rifa e aumentar suas chances de ganhar!</p>
-      <a href="LINK_DA_RIFA" id="btnFinal" class="cta-button" target="_blank" rel="noopener noreferrer">👉 Quero Participar Agora</a>
+      <div class="progress" id="progress"></div>
     </div>
   </div>
 
-  <footer>
-    Esta é uma página de apresentação e redirecionamento. Você será levado para o site oficial da rifa.
-  </footer>
+  <div id="step2" class="hidden">
+    <h2>Parabéns! Você ganhou um bônus!</h2>
+    <p>Seu saldo atual é:</p>
+    <div id="saldoAtual" style="font-size:28px; font-weight:700; margin:20px 0;"></div>
+    <button id="btnNextStep">Continuar</button>
+  </div>
 
-  <!-- Script para localização via IP -->
-  <script>
-    fetch('https://ipinfo.io/json?token=d5a36e5f156d55')
-      .then(response => response.json())
-      .then(data => {
-        const cidade = data.city;
-        const h1 = document.getElementById('headline');
-        if (cidade) {
-          h1.textContent = `🎁 Últimas Vagas para a Rifa Moto Zero KM em ${cidade}`;
-        }
-      })
-      .catch(error => {
-        console.log('Erro ao obter localização:', error);
-      });
-  </script>
+  <div id="step3" class="hidden">
+    <h2>Continue acumulando bônus!</h2>
+    <p>Clique novamente para tentar aumentar seu saldo.</p>
+    <div id="box" title="Clique para abrir a caixa surpresa!">
+      🎁
+      <div class="ribbon-shadow"></div>
+    </div>
+    <div class="progress-bar">
+      <div class="progress" id="progress2"></div>
+    </div>
+  </div>
 
-  <!-- Script de controle das etapas e pixel -->
-  <script>
-    const step1 = document.getElementById('step1');
-    const step2 = document.getElementById('step2');
-    const step3 = document.getElementById('step3');
-    const step4 = document.getElementById('step4');
-    const btnStart = document.getElementById('btnStart');
-    const btnQuizNext = document.getElementById('btnQuizNext');
-    const btnOfferNext = document.getElementById('btnOfferNext');
-    const btnFinal = document.getElementById('btnFinal');
-    const progress = document.getElementById('progress');
+  <div id="step4" class="hidden">
+    <h2>🎁SUPER BÕNUS🎁! Seu bônus total:</h2>
+    <div id="saldoTotal" style="font-size:32px; font-weight:700; color:#00c851;"></div>
 
-    // Atualiza barra de progresso
-    function updateProgress(step) {
-      const percent = (step / 4) * 100;
-      progress.style.width = percent + '%';
-    }
+    <div id="aviator">
+      <div id="plane"></div>
+    </div>
 
-    // Passo 1 -> Passo 2
-    btnStart.addEventListener('click', () => {
-      step1.classList.add('hidden');
-      step2.classList.remove('hidden');
-      updateProgress(1);
+    <p id="resgate-info">COM ESTE BÔNUS ⏩ VOCÊ COMPRA 1.000 COTAS DE 90,00 REAIS ⏩ POR APENAS 30,00 REAIS ⏩ USANDO O SEU BÕNUS DE 60,OO REAIS. Opcional</p>
+
+  <img id="moto-bilhete" src="imagens/desconto.PNG" alt="Moto zero km com bilhete" />
+
+
+    <button id="btnGoSite">Ir para o site oficial da rifa</button>
+  </div>
+</div>
+
+<script>
+  let saldo = 0;
+  let step = 1;
+  const maxSaldo = 60;
+
+  const saldoDiv = document.getElementById('saldo');
+  const bonusAmountSpan = document.getElementById('bonus-amount');
+  const progress1 = document.getElementById('progress');
+  const progress2 = document.getElementById('progress2');
+  const step1 = document.getElementById('step1');
+  const step2 = document.getElementById('step2');
+  const step3 = document.getElementById('step3');
+  const step4 = document.getElementById('step4');
+  const saldoAtual = document.getElementById('saldoAtual');
+  const saldoTotal = document.getElementById('saldoTotal');
+  const plane = document.getElementById('plane');
+  const btnNextStep = document.getElementById('btnNextStep');
+  const btnGoSite = document.getElementById('btnGoSite');
+
+  // 🎯 Edite aqui os valores por etapa!
+  const bonusFixos = [8, 30, 22, 0]; // Total deve ser 50
+
+  function atualizarSaldo(valor) {
+    saldo += valor;
+    saldo = +saldo.toFixed(2);
+    saldoDiv.textContent = `Saldo: R$${saldo.toFixed(2)}`;
+    bonusAmountSpan.textContent = `R$${saldo.toFixed(2)}`;
+  }
+
+  function atualizarProgressBar(progressElement) {
+    let porcentagem = Math.min((saldo / maxSaldo) * 100, 100);
+    progressElement.style.width = porcentagem + '%';
+  }
+
+  function tocarSom() {
+    let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let oscillator = audioCtx.createOscillator();
+    let gainNode = audioCtx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    oscillator.type = 'triangle';
+    oscillator.frequency.value = 880;
+    gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.2);
+  }
+
+  document.querySelectorAll('#box').forEach(box => {
+    box.addEventListener('click', () => {
+      if (step >= 5) return;
+
+      const bonus = bonusFixos[step - 1];
+      atualizarSaldo(bonus);
+      tocarSom();
+      box.classList.add('opened');
+
+      if (step === 1) {
+        step1.classList.add('hidden');
+        saldoAtual.textContent = `R$${saldo.toFixed(2)}`;
+        atualizarProgressBar(progress1);
+        step2.classList.remove('hidden');
+      } else if (step === 3) {
+        step3.classList.add('hidden');
+        saldoTotal.textContent = `R$${saldo.toFixed(2)}`;
+        atualizarProgressBar(progress2);
+        step4.classList.remove('hidden');
+        plane.style.bottom = '150px';
+      }
+
+      step++;
     });
+  });
 
-    // Habilita botão próximo quiz somente com resposta
-    const quizRadios = document.querySelectorAll('input[name="moto"]');
-    quizRadios.forEach(radio => {
-      radio.addEventListener('change', () => {
-        btnQuizNext.disabled = false;
-      });
-    });
+  btnNextStep.addEventListener('click', () => {
+    step2.classList.add('hidden');
+    step3.classList.remove('hidden');
+  });
 
-    // Passo 2 -> Passo 3
-    btnQuizNext.addEventListener('click', () => {
-      // Você pode pegar a resposta aqui se quiser
-      // const resposta = document.querySelector('input[name="moto"]:checked').value;
-      step2.classList.add('hidden');
-      step3.classList.remove('hidden');
-      updateProgress(2);
-    });
+  btnGoSite.addEventListener('click', () => {
+    window.location.href = 'https://checkout.kadepremiacoes.com.br/xt-660-a-mais-zera-do?'; // Substitua pelo link final
+  });
 
-    // Passo 3 -> Passo 4
-    btnOfferNext.addEventListener('click', () => {
-      step3.classList.add('hidden');
-      step4.classList.remove('hidden');
-      updateProgress(3);
-    });
+  // Inicializa com saldo 0
+  atualizarSaldo(0);
+</script>
 
-    // Passo 4 - clique final (Evento Pixel Facebook)
-    btnFinal.addEventListener('click', () => {
-      fbq('track', 'LeadCadastro'); // Evento customizado para cadastro/lead
-      updateProgress(4);
-    });
-  </script>
 </body>
 </html>
