@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rifa Moto Zero KM - Pré-site Gamificado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('imagens/fundoooo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      text-align: center;
+    }
+    header {
+      background-color: rgba(0,0,0,0.6);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 26px;
+      margin: 0;
+    }
+    .container {
+      background-color: rgba(0,0,0,0.5);
+      max-width: 700px;
+      margin: auto;
+      border-radius: 15px;
+      padding: 30px 20px;
+      min-height: 300px;
+    }
+    .image-container img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    }
+    .benefits, .quiz, .offer {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .cta-button, button {
+      background-color: #00c851;
+      color: white;
+      padding: 15px 25px;
+      font-size: 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+    .cta-button:hover, button:hover {
+      background-color: #007e33;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #ccc;
+    }
+    .hidden {
+      display: none;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #444;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      height: 20px;
+      overflow: hidden;
+    }
+    .progress {
+      height: 100%;
+      width: 0%;
+      background-color: #00c851;
+      transition: width 0.4s ease;
+    }
+    label {
+      display: block;
+      margin: 12px 0;
+      cursor: pointer;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  </style>
+
+  <!-- Pixel do Facebook -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'PIXEL_ID_AQUI'); // Substitua pelo seu Pixel ID
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=PIXEL_ID_AQUI&ev=PageView&noscript=1"/>
+  </noscript>
+
+</head>
+
+<body>
+  <header>
+    <h1 id="headline">🎁 Últimas Vagas para a Rifa Moto Zero KM na sua cidade</h1>
+  </header>
+
+  <div class="container">
+    <!-- Barra de progresso -->
+    <div class="progress-bar">
+      <div id="progress" class="progress"></div>
+    </div>
+
+    <!-- Etapa 1 - Inicial -->
+    <div id="step1">
+      <div class="image-container">
+        <img src="imagens/fotoxtsite.jpg" alt="Prêmio da Rifa" />
+      </div>
+      <div class="benefits">
+        ✅ Apenas R$1 por cota<br/>
+        ✅ Sorteio confiável e seguro<br/>
+        ✅ Mais de 300 pessoas já participando hoje!
+      </div>
+      <button id="btnStart" class="cta-button">Começar</button>
+    </div>
+
+    <!-- Etapa 2 - Quiz -->
+    <div id="step2" class="hidden">
+      <div class="quiz">
+        <p><strong>Qual modelo de moto você gostaria de ganhar?</strong></p>
+        <label><input type="radio" name="moto" value="Honda" /> Honda</label>
+        <label><input type="radio" name="moto" value="Yamaha" /> Yamaha</label>
+        <label><input type="radio" name="moto" value="Suzuki" /> Suzuki</label>
+        <label><input type="radio" name="moto" value="Kawasaki" /> Kawasaki</label>
+      </div>
+      <button id="btnQuizNext" class="cta-button" disabled>Próximo</button>
+    </div>
+
+    <!-- Etapa 3 - Oferta bônus -->
+    <div id="step3" class="hidden">
+      <div class="offer">
+        <p>🎉 Parabéns! Você pode ganhar 1 cota bônus grátis se comprar 3 ou mais cotas!</p>
+        <p>Quantas cotas deseja adquirir?</p>
+        <label><input type="radio" name="cotas" value="1" checked /> 1 cota</label>
+        <label><input type="radio" name="cotas" value="3" /> 3 cotas (+1 grátis!)</label>
+        <label><input type="radio" name="cotas" value="5" /> 5 cotas (+2 grátis!)</label>
+      </div>
+      <button id="btnOfferNext" class="cta-button">Continuar</button>
+    </div>
+
+    <!-- Etapa 4 - Final -->
+    <div id="step4" class="hidden">
+      <h2>Quase lá! 🏁</h2>
+      <p>Você está pronto para participar da rifa e aumentar suas chances de ganhar!</p>
+      <a href="LINK_DA_RIFA" id="btnFinal" class="cta-button" target="_blank" rel="noopener noreferrer">👉 Quero Participar Agora</a>
+    </div>
+  </div>
+
+  <footer>
+    Esta é uma página de apresentação e redirecionamento. Você será levado para o site oficial da rifa.
+  </footer>
+
+  <!-- Script para localização via IP -->
+  <script>
+    fetch('https://ipinfo.io/json?token=d5a36e5f156d55')
+      .then(response => response.json())
+      .then(data => {
+        const cidade = data.city;
+        const h1 = document.getElementById('headline');
+        if (cidade) {
+          h1.textContent = `🎁 Últimas Vagas para a Rifa Moto Zero KM em ${cidade}`;
+        }
+      })
+      .catch(error => {
+        console.log('Erro ao obter localização:', error);
+      });
+  </script>
+
+  <!-- Script de controle das etapas e pixel -->
+  <script>
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    const step4 = document.getElementById('step4');
+    const btnStart = document.getElementById('btnStart');
+    const btnQuizNext = document.getElementById('btnQuizNext');
+    const btnOfferNext = document.getElementById('btnOfferNext');
+    const btnFinal = document.getElementById('btnFinal');
+    const progress = document.getElementById('progress');
+
+    // Atualiza barra de progresso
+    function updateProgress(step) {
+      const percent = (step / 4) * 100;
+      progress.style.width = percent + '%';
+    }
+
+    // Passo 1 -> Passo 2
+    btnStart.addEventListener('click', () => {
+      step1.classList.add('hidden');
+      step2.classList.remove('hidden');
+      updateProgress(1);
+    });
+
+    // Habilita botão próximo quiz somente com resposta
+    const quizRadios = document.querySelectorAll('input[name="moto"]');
+    quizRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        btnQuizNext.disabled = false;
+      });
+    });
+
+    // Passo 2 -> Passo 3
+    btnQuizNext.addEventListener('click', () => {
+      // Você pode pegar a resposta aqui se quiser
+      // const resposta = document.querySelector('input[name="moto"]:checked').value;
+      step2.classList.add('hidden');
+      step3.classList.remove('hidden');
+      updateProgress(2);
+    });
+
+    // Passo 3 -> Passo 4
+    btnOfferNext.addEventListener('click', () => {
+      step3.classList.add('hidden');
+      step4.classList.remove('hidden');
+      updateProgress(3);
+    });
+
+    // Passo 4 - clique final (Evento Pixel Facebook)
+    btnFinal.addEventListener('click', () => {
+      fbq('track', 'LeadCadastro'); // Evento customizado para cadastro/lead
+      updateProgress(4);
+    });
+  </script>
+</body>
+</html>
