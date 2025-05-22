@@ -301,9 +301,10 @@
 <form id="form-cadastro">
   <input type="text" id="nome" name="nome" placeholder="Primeiro Nome" required />
   <input type="text" id="whatsapp" name="whatsapp" placeholder="WhatsApp com DDD" required />
-  <input type="email" id="email" name="email" placeholder="Opcional" required />
+  <input type="text" id="cidade" name="cidade" placeholder="Sua Cidade" required />
   <button type="button" id="finalizar-btn">Finalizar</button>
 </form>
+
 
 </main>
 
@@ -316,7 +317,7 @@
 </footer>
 
 <div id="popup-bonus">
-  🎉 Parabéns! Você ativou a CHANCE EM DOBRO! <span id="bonus-qtde"></span> cotas de bônus! 🎉
+  🎉 Parabéns! CHANCE EM DOBRO! <span id="bonus-qtde"></span> cotas de bônus! 🎉
   <br/>
   <button id="btnClosePopup">Fechar</button>
 </div>
@@ -398,15 +399,16 @@
     // aqui você validaria os dados, enviaria para backend e redirecionaria para pagamento
     const nome = document.getElementById('nome').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
+    const cidade = document.getElementById('cidade').value.trim();
  
 
-    if (!nome || !whatsapp || !email) {
+    if (!nome || !whatsapp || !cidade) {
       alert('Por favor, preencha todos os campos corretamente.');
       return;
     }
 
     // Simulação de envio e redirecionamento:
-    alert(' ' + nome + '! A CHANCE EM DOBRO vai ficar disponível pra você por algumas horas, Você será redirecionado para o Site Oficial.');
+    alert('🚨 ' + nome + '! Você Ganhou!🎉 50% de bônus, acima de 400 cotas 50% de bônus. Vou entregar a XT pra você ai em ' + cidade + '! Você será redirecionado para o Site Oficial. Transferência, documento, tudo por minha conta, ok?✔️');
     window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-231';
   };
 
@@ -451,7 +453,7 @@
 document.getElementById('finalizar-btn').addEventListener('click', async function () {
   const nome = document.getElementById('nome').value;
   let whatsapp = document.getElementById('whatsapp').value.replace(/\D/g, ''); // remove espaços, parênteses, traços etc.
-  const email = document.getElementById('email').value;
+  const cidade = document.getElementById('cidade').value;
 
   // Adiciona 55 se ainda não estiver no início
   if (!whatsapp.startsWith('55')) {
@@ -461,7 +463,7 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
   const dados = {
     nome: nome,
     whatsapp: whatsapp,
-    email: email
+    cidade: cidade
   };
 
   try {
