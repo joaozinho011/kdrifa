@@ -399,6 +399,7 @@
     // aqui você validaria os dados, enviaria para backend e redirecionaria para pagamento
     const nome = document.getElementById('nome').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
+    const cidade = document.getElementById('cidade').value.trim();
  
 
     if (!nome || !whatsapp || !cidade) {
@@ -452,7 +453,7 @@
 document.getElementById('finalizar-btn').addEventListener('click', async function () {
   const nome = document.getElementById('nome').value;
   let whatsapp = document.getElementById('whatsapp').value.replace(/\D/g, ''); // remove espaços, parênteses, traços etc.
-  const email = document.getElementById('email').value;
+  const cidade = document.getElementById('cidade').value;
 
   // Adiciona 55 se ainda não estiver no início
   if (!whatsapp.startsWith('55')) {
@@ -462,11 +463,11 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
   const dados = {
     nome: nome,
     whatsapp: whatsapp,
-    email: email
+    cidade: cidade
   };
 
   try {
-    const resposta = await fetch('https://new-backend.botconversa.com.br/api/v1/webhooks-automation/catch/35282/udlmgE4iDxPs/', { // substitua com seu webhook real
+    const resposta = await fetch('https://new-backend.botconversa.com.br/api/v1/webhooks-automation/catch/35282/Fo60yPG3LRXL/', { // substitua com seu webhook real
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -475,17 +476,16 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
     });
 
     if (resposta.ok) {
-      alert('Dados enviados com sucesso!');
+      alert('🍀Boa sorte🍀');
     } else {
-      alert('Erro ao enviar dados.');
+      alert('🍀Boa sorte');
     }
   } catch (erro) {
     console.error('Erro no envio:', erro);
-    alert('Falha ao conectar com o servidor.');
+    alert('Boa sorte🍀');
   }
 });
 </script>
-
 
 
 
