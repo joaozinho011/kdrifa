@@ -456,7 +456,6 @@
 document.getElementById('finalizar-btn').addEventListener('click', async function () {
   const nome = document.getElementById('nome').value;
   let whatsapp = document.getElementById('whatsapp').value.replace(/\D/g, ''); // remove espaços, parênteses, traços etc.
-  const cidade = document.getElementById('cidade').value;
   const email = document.getElementById('email').value;
 
   // Adiciona 55 se ainda não estiver no início
@@ -467,7 +466,6 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
   const dados = {
     nome: nome,
     whatsapp: whatsapp,
-    cidade: cidade,
     email: email
   };
 
@@ -481,13 +479,13 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
     });
 
     if (resposta.ok) {
-      alert('🍀Boa sorte🍀');
+      alert('Dados enviados com sucesso!');
     } else {
-      alert('🍀Boa sorte');
+      alert('Erro ao enviar dados.');
     }
   } catch (erro) {
     console.error('Erro no envio:', erro);
-    alert('Boa sorte🍀');
+    alert('Falha ao conectar com o servidor.');
   }
 });
 </script>
