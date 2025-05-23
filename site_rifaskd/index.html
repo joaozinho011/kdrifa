@@ -302,7 +302,6 @@
   <input type="text" id="nome" name="nome" placeholder="Primeiro Nome" required />
   <input type="text" id="whatsapp" name="whatsapp" placeholder="WhatsApp com DDD" required />
   <input type="text" id="cidade" name="cidade" placeholder="Sua Cidade" required />
-  <input type="email" id="email" name="email" placeholder="Opcional" required />
   <button type="button" id="finalizar-btn">Finalizar</button>
 </form>
 
@@ -401,7 +400,6 @@
     const nome = document.getElementById('nome').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
     const cidade = document.getElementById('cidade').value.trim();
-    const email = document.getElementById('email').value;
 
  
 
@@ -456,8 +454,7 @@
 document.getElementById('finalizar-btn').addEventListener('click', async function () {
   const nome = document.getElementById('nome').value;
   let whatsapp = document.getElementById('whatsapp').value.replace(/\D/g, ''); // remove espaços, parênteses, traços etc.
-  const email = document.getElementById('email').value;
-
+  
   // Adiciona 55 se ainda não estiver no início
   if (!whatsapp.startsWith('55')) {
     whatsapp = '55' + whatsapp;
@@ -466,7 +463,6 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
   const dados = {
     nome: nome,
     whatsapp: whatsapp,
-    email: email
   };
 
   try {
