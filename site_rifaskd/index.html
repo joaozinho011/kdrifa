@@ -302,6 +302,7 @@
   <input type="text" id="nome" name="nome" placeholder="Primeiro Nome" required />
   <input type="text" id="whatsapp" name="whatsapp" placeholder="WhatsApp com DDD" required />
   <input type="text" id="cidade" name="cidade" placeholder="Sua Cidade" required />
+  <input type="email" id="email" name="email" placeholder="Opcional" required />
   <button type="button" id="finalizar-btn">Finalizar</button>
 </form>
 
@@ -400,6 +401,8 @@
     const nome = document.getElementById('nome').value.trim();
     const whatsapp = document.getElementById('whatsapp').value.trim();
     const cidade = document.getElementById('cidade').value.trim();
+    const email = document.getElementById('email').value;
+
  
 
     if (!nome || !whatsapp || !cidade) {
@@ -454,6 +457,7 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
   const nome = document.getElementById('nome').value;
   let whatsapp = document.getElementById('whatsapp').value.replace(/\D/g, ''); // remove espaços, parênteses, traços etc.
   const cidade = document.getElementById('cidade').value;
+  const email = document.getElementById('email').value;
 
   // Adiciona 55 se ainda não estiver no início
   if (!whatsapp.startsWith('55')) {
@@ -463,7 +467,8 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
   const dados = {
     nome: nome,
     whatsapp: whatsapp,
-    cidade: cidade
+    cidade: cidade,
+    email: email
   };
 
   try {
@@ -476,16 +481,17 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
     });
 
     if (resposta.ok) {
-      alert('Dados enviados com sucesso!');
+      alert('🍀Boa sorte🍀');
     } else {
-      alert('Erro ao enviar dados.');
+      alert('🍀Boa sorte');
     }
   } catch (erro) {
     console.error('Erro no envio:', erro);
-    alert('Falha ao conectar com o servidor.');
+    alert('Boa sorte🍀');
   }
 });
 </script>
+
 
 
 
