@@ -476,13 +476,13 @@ document.getElementById('finalizar-btn').addEventListener('click', async functio
     });
 
     if (resposta.ok) {
-      alert('🍀Boa sorte🍀');
+      alert('Dados enviados com sucesso!');
     } else {
-      alert('🍀Boa sorte');
+      alert('Erro ao enviar dados.');
     }
   } catch (erro) {
     console.error('Erro no envio:', erro);
-    alert('Boa sorte🍀');
+    alert('Falha ao conectar com o servidor.');
   }
 });
 </script>
