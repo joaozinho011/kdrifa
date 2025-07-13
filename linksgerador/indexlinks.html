@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gerador de Link WhatsApp</title>
+<style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f9f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
+  .container {
+    background: white;
+    padding: 40px 30px;
+    max-width: 450px;
+    width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    text-align: center;
+  }
+  h1 {
+    color: #128C7E;
+    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: 1.9rem;
+  }
+  label {
+    display: block;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+  }
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+  }
+  input[type="text"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #25D366;
+    box-shadow: 0 0 8px rgba(37,211,102,0.4);
+  }
+  textarea {
+    min-height: 100px;
+  }
+  button {
+    margin-top: 20px;
+    background-color: #25D366;
+    border: none;
+    color: white;
+    padding: 14px 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    width: 100%;
+    user-select: none;
+  }
+  button:hover {
+    background-color: #128C7E;
+  }
+  .link-output {
+    margin-top: 24px;
+    word-break: break-all;
+    font-size: 1rem;
+    background: #E6F4EA;
+    padding: 14px 16px;
+    border-radius: 8px;
+    color: #128C7E;
+    user-select: all;
+  }
+  .error {
+    color: #cc0000;
+    margin-top: 12px;
+    font-weight: 600;
+  }
+  .footer {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: #777;
+  }
+  /* Ícone WhatsApp estilo simples */
+  .icon-whatsapp {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    fill: #25D366;
+    width: 24px;
+    height: 24px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" role="main" aria-label="Gerador de Link WhatsApp">
+  <h1>
+    <svg class="icon-whatsapp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M20.52 3.48A11.945 11.945 0 0012 0C5.373 0 0 5.372 0 12c0 2.12.555 4.12 1.607 5.88L0 24l6.23-1.636a11.94 11.94 0 005.77 1.6c6.627 0 12-5.373 12-12a11.9 11.9 0 00-3.48-8.484zM12 21.6c-1.77 0-3.475-.485-4.92-1.39l-.352-.208-3.72.978.992-3.628-.23-.373a8.4 8.4 0 01-1.276-4.552c0-4.66 3.79-8.45 8.45-8.45 2.25 0 4.363.88 5.942 2.48a8.42 8.42 0 012.488 5.94c0 4.66-3.79 8.45-8.45 8.45z"/>
+      <path d="M17.122 14.028l-2.096-.6a.507.507 0 00-.5.13l-.9 1.098a6.2 6.2 0 01-2.996-2.97l1.1-.897a.5.5 0 00.128-.505l-.6-2.094a.5.5 0 00-.484-.356H9.09a.495.495 0 00-.5.434c-.102.84-.158 1.703-.158 2.57 0 3.58 2.9 6.48 6.48 6.48.866 0 1.73-.055 2.57-.158a.495.495 0 00.434-.5v-1.03a.5.5 0 00-.355-.484z"/>
+    </svg>
+    Gerador de Link WhatsApp
+  </h1>
+
+  <label for="numero">Número do WhatsApp (somente números, ex: 11999999999):</label>
+  <input id="numero" type="text" inputmode="numeric" pattern="\d*" placeholder="Digite o número com DDD" aria-describedby="numeroHelp" />
+
+  <label for="mensagem">Mensagem personalizada:</label>
+  <textarea id="mensagem" placeholder="Digite a mensagem que será enviada" aria-describedby="mensagemHelp"></textarea>
+
+  <button type="button" onclick="gerarLink()" aria-live="polite">Gerar Link</button>
+
+  <div id="error" class="error" role="alert" aria-live="assertive"></div>
+  <div id="linkResult" class="link-output" aria-live="polite" tabindex="0"></div>
+
+  <div class="footer">
+    Desenvolvido por Você © 2025
+  </div>
+</div>
+
+<script>
+function gerarLink() {
+  const numeroInput = document.getElementById('numero');
+  const mensagemInput = document.getElementById('mensagem');
+  const errorDiv = document.getElementById('error');
+  const linkResultDiv = document.getElementById('linkResult');
+
+  errorDiv.textContent = '';
+  linkResultDiv.textContent = '';
+  
+  let numero = numeroInput.value.replace(/\D/g,'');
+  let mensagem = mensagemInput.value.trim();
+
+  if(numero.length < 10) {
+    errorDiv.textContent = 'Número inválido. Digite o DDD + número.';
+    numeroInput.focus();
+    return;
+  }
+  if(!mensagem) {
+    errorDiv.textContent = 'Digite a mensagem.';
+    mensagemInput.focus();
+    return;
+  }
+
+  // Se o número não começar com código do Brasil, adiciona 55
+  if(!numero.startsWith('55')) {
+    numero = '55' + numero;
+  }
+
+  const link = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+  linkResultDiv.innerHTML = `<strong>Link gerado:</strong> <a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a>`;
+  linkResultDiv.focus();
+}
+</script>
+
+</body>
+</html>
