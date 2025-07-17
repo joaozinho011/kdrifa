@@ -244,21 +244,20 @@
     const nome = this.nome.value;
     const telefone = this.telefone.value;
 
-    // Enviar para Webhook
-    fetch('https://areadocliente.liguelead.com.br/api/crm/webhook/b390036e-9852-4c3c-b5dd-d9207e795e82/lead2', { // << COLE SEU LINK AQUI
+    // Enviar para Webhook (não espera resposta)
+    fetch('https://areadocliente.liguelead.com.br/api/crm/webhook/b390036e-9852-4c3c-b5dd-d9207e795e82/lead2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ nome, telefone })
-    }).then(() => {
-      window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232'; // Redireciona após envio
-    }).catch((err) => {
-      alert('Erro ao enviar. Tente novamente.');
-      console.error(err);
     });
+
+    // Redireciona imediatamente (sem esperar fetch)
+    window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232';
   });
 </script>
+
 
 
 
