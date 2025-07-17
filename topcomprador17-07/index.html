@@ -232,6 +232,7 @@
 
 
 
+
 <script>
   function abrirPopup() {
     document.getElementById('popup-overlay').style.display = 'block';
@@ -241,37 +242,42 @@
   document.getElementById('leadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const nome = this.nome.value.trim();
+    let nome = this.nome.value.trim();
     let telefoneBruto = this.telefone.value;
 
-    // Remove tudo que não for número
+    // 🔁 Remove tudo que não for número
     const telefoneLimpo = telefoneBruto.replace(/\D/g, "");
 
-    // Extrai DDD e número
-    const ddd = telefoneLimpo.substring(0, 2);
-    const phone = telefoneLimpo.substring(2);
-
-    // Verificação básica
-    if (ddd.length !== 2 || phone.length < 8) {
-      alert("Telefone inválido. Digite com DDD.");
+    // 🔍 Validação mínima
+    if (telefoneLimpo.length < 10) {
+      alert("Digite um telefone válido com DDD.");
       return;
     }
 
+    // 📞 Extrai DDD e número corretamente (ignorando +55 ou 0)
+    const ddd = telefoneLimpo.slice(0, 2);
+    const phone = telefoneLimpo.slice(2);
+
+    // 🔤 Remove caracteres especiais do nome
+    nome = nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    // ✅ Monta payload padrão LigueLead
     const payload = {
       data: {
         lead: {
           name: nome,
           phone: phone,
           ddd: ddd,
-          email: "" // Pode deixar vazio se não tiver
+          email: "" // opcional
         },
-        event: "create_lead" // ou "start_flow" se quiser ativar automação
+        event: "create_lead"
+        // ou "start_flow" se quiser iniciar um fluxo automático
       }
     };
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 500); // timeout de 500ms
+      const timeout = setTimeout(() => controller.abort(), 500); // até 500ms de espera
 
       await fetch("https://areadocliente.liguelead.com.br/api/crm/webhook/eda3f9c3-153a-4c4e-9aae-3f7eda66f018", {
         method: "POST",
@@ -282,13 +288,13 @@
 
       clearTimeout(timeout);
     } catch (err) {
-      console.warn('Erro ao enviar webhook:', err);
+      console.warn("Erro ao enviar para webhook:", err);
     }
 
-    window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232';
+    // Redireciona após envio
+    window.location.href = "https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232";
   });
 </script>
-
 
 
 
