@@ -231,21 +231,31 @@
 </audio>
 
 
+
 <script>
   function abrirPopup() {
     document.getElementById('popup-overlay').style.display = 'block';
     document.getElementById('popup-sound').play();
   }
 
-  document.getElementById('leadForm').addEventListener('submit', async function(e) {
+  document.getElementById('leadForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const nome = this.nome.value.trim();
-    const telefoneCompleto = this.telefone.value.trim();
+    let telefoneBruto = this.telefone.value;
 
-    // Quebra telefone: DDD + número
-    const ddd = telefoneCompleto.substring(0, 2);
-    const phone = telefoneCompleto.substring(2);
+    // Remove tudo que não for número
+    const telefoneLimpo = telefoneBruto.replace(/\D/g, "");
+
+    // Extrai DDD e número
+    const ddd = telefoneLimpo.substring(0, 2);
+    const phone = telefoneLimpo.substring(2);
+
+    // Verificação básica
+    if (ddd.length !== 2 || phone.length < 8) {
+      alert("Telefone inválido. Digite com DDD.");
+      return;
+    }
 
     const payload = {
       data: {
@@ -255,13 +265,13 @@
           ddd: ddd,
           email: "" // Pode deixar vazio se não tiver
         },
-        event: "create_lead"
+        event: "create_lead" // ou "start_flow" se quiser ativar automação
       }
     };
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 500); // tempo máximo de espera
+      const timeout = setTimeout(() => controller.abort(), 500); // timeout de 500ms
 
       await fetch("https://areadocliente.liguelead.com.br/api/crm/webhook/eda3f9c3-153a-4c4e-9aae-3f7eda66f018", {
         method: "POST",
@@ -278,7 +288,6 @@
     window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232';
   });
 </script>
-
 
 
 
