@@ -231,7 +231,6 @@
 </audio>
 
 
-<!-- Script -->
 <script>
   function abrirPopup() {
     document.getElementById('popup-overlay').style.display = 'block';
@@ -241,33 +240,41 @@
   document.getElementById('leadForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const nome = this.nome.value;
-    const telefone = this.telefone.value;
+    const nome = this.nome.value.trim();
+    const telefoneCompleto = this.telefone.value.trim();
+
+    // Quebra telefone: DDD + número
+    const ddd = telefoneCompleto.substring(0, 2);
+    const phone = telefoneCompleto.substring(2);
 
     const payload = {
-      nome,
-      telefone
+      data: {
+        lead: {
+          name: nome,
+          phone: phone,
+          ddd: ddd,
+          email: "" // Pode deixar vazio se não tiver
+        },
+        event: "create_lead"
+      }
     };
 
     try {
-      // Envia os dados e aguarda a resposta por no máximo 500ms
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 500); // Limite de tempo
+      const timeout = setTimeout(() => controller.abort(), 500); // tempo máximo de espera
 
-      await fetch('https://areadocliente.liguelead.com.br/api/crm/webhook/b390036e-9852-4c3c-b5dd-d9207e795e82/lead2', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await fetch("https://areadocliente.liguelead.com.br/api/crm/webhook/b390036e-9852-4c3c-b5dd-d9207e795e82/lead2", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
         signal: controller.signal
       });
 
-      clearTimeout(timeout); // Se chegou aqui, envio foi ok
+      clearTimeout(timeout);
     } catch (err) {
-      console.warn('Envio para webhook pode ter falhado:', err);
-      // Opcional: você pode registrar esse erro em um serviço de log
+      console.warn('Erro ao enviar webhook:', err);
     }
 
-    // Redireciona de qualquer forma após o envio ou timeout
     window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232';
   });
 </script>
