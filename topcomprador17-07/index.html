@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Comprador do Dia - XT660</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #111;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #00ffae;
+    }
+    .countdown {
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+    }
+    .ranking {
+      margin: 30px 0;
+      background: #222;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .ranking h2 {
+      margin-bottom: 16px;
+      font-size: 1.2rem;
+    }
+    .ranking ol {
+      list-style: none;
+      padding: 0;
+    }
+    .ranking li {
+      font-size: 1.1rem;
+      padding: 8px;
+      margin-bottom: 8px;
+      background: #333;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      background: #00ffae;
+      color: black;
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .btn-participar {
+      margin-top: 30px;
+      background: #00ffae;
+      color: black;
+      padding: 16px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    .btn-participar:hover {
+      background: #00d996;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏆 Top Comprador do Dia</h1>
+    <div class="countdown">⏰ Termina em: <span id="timer">--:--:--</span></div>
+
+    <div class="ranking">
+      <h2>Ranking Atualizado</h2>
+      <ol>
+        <li><span>🥇 Weslen S.</span> <span class="badge">2.199 cotas</span></li>
+        <li><span>🥈 Ramon P.</span> <span class="badge">2.000 cotas</span></li>
+        <li><span>🥉 Jackson F.</span> <span class="badge">1.600 cotas</span></li>
+      </ol>
+    </div>
+
+    <p>💰 O top comprador do dia leva <strong>R$1.000,00 no PIX</strong>!</p>
+    <p>📢 Tem 6 bilhetes premiado de 1.000,00</p>
+
+  
+    <!-- BOTÃO DE PARTICIPAÇÃO -->
+<button class="btn-participar" onclick="abrirPopup()">Quero Participar</button>
+
+    <footer>
+      Última atualização do ranking: 17/07 às 12h00<br>
+      Ranking atualizado manualmente.
+    </footer>
+  </div>
+
+  <div id="timer" style="font-size: 30px; font-weight: bold; color: red;"></div>
+
+<script>
+  function startCountdown(finalHour = 23, finalMinute = 59, finalSecond = 59) {
+    const now = new Date();
+    const end = new Date();
+    end.setHours(finalHour, finalMinute, finalSecond, 0); // Define hora final
+
+    const timer = document.getElementById("timer");
+
+    function update() {
+      const now = new Date();
+      const diff = end - now;
+
+      if (diff <= 0) {
+        timer.innerText = "00:00:00";
+        return;
+      }
+
+      const hours = String(Math.floor(diff / 1000 / 60 / 60)).padStart(2, '0');
+      const minutes = String(Math.floor(diff / 1000 / 60) % 60).padStart(2, '0');
+      const seconds = String(Math.floor(diff / 1000) % 60).padStart(2, '0');
+
+      timer.innerText = `${hours}:${minutes}:${seconds}`;
+    }
+
+    update(); // Atualiza imediatamente ao carregar
+    setInterval(update, 1000);
+  }
+
+  // 👇 Só mudar aqui para configurar a hora final
+  startCountdown(21, 30, 0); // Ex: 21:30:00
+</script>
+<!-- Estilos do Pop-up -->
+<style>
+  #popup-overlay {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+  }
+
+  #popup-box {
+    background: #fff;
+    border-radius: 10px;
+    max-width: 400px;
+    padding: 20px;
+    text-align: center;
+    margin: 100px auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    animation: popup-in 0.4s ease;
+  }
+
+  #popup-box h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #111;
+  }
+
+  #popup-box p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  #popup-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  #popup-box button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  #popup-box button:hover {
+    background: #218838;
+  }
+
+  @keyframes popup-in {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+
+
+<!-- Pop-up -->
+<div id="popup-overlay">
+  <div id="popup-box">
+    <h2>Quer receber atualizações imediatas do ranking?</h2>
+    <p>Deixe seu nome e telefone. Iremos te avisar via SMS ou WhatsApp!</p>
+    <form id="leadForm">
+      <input type="text" name="nome" placeholder="Seu nome" required>
+      <input type="tel" name="telefone" placeholder="(DDD) 90000-0000" required>
+      <button type="submit">Receber Atualizações</button>
+    </form>
+  </div>
+</div>
+
+<!-- Som de notificação local -->
+<audio id="popup-sound" preload="auto">
+  <source src="audio/notificacao.mp3" type="audio/mpeg">
+</audio>
+
+
+<!-- Script -->
+<script>
+  function abrirPopup() {
+    document.getElementById('popup-overlay').style.display = 'block';
+    document.getElementById('popup-sound').play();
+  }
+
+  document.getElementById('leadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const nome = this.nome.value;
+    const telefone = this.telefone.value;
+
+    // Enviar para Webhook
+    fetch('https://areadocliente.liguelead.com.br/api/crm/webhook/049b024c-1347-4c30-98d0-5f92c5e2a007/lead2', { // << COLE SEU LINK AQUI
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ nome, telefone })
+    }).then(() => {
+      window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232'; // Redireciona após envio
+    }).catch((err) => {
+      alert('Erro ao enviar. Tente novamente.');
+      console.error(err);
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
