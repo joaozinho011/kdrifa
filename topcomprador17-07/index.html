@@ -244,54 +244,39 @@
     let nome = this.nome.value.trim();
     let telefoneBruto = this.telefone.value;
 
-    // 🔁 Remove tudo que não for número
+    // 🔁 Limpa todos os símbolos
     let telefoneLimpo = telefoneBruto.replace(/\D/g, "");
 
-    // 🔍 Remove DDI se começar com 55 (ou 0)
+    // Remove DDI duplicado se necessário
     if (telefoneLimpo.startsWith("55")) {
-      telefoneLimpo = telefoneLimpo.slice(2);
-    } else if (telefoneLimpo.startsWith("0")) {
-      telefoneLimpo = telefoneLimpo.slice(1);
-    }
-
-    // Validação mínima
-    if (telefoneLimpo.length < 10) {
+      // ok, já tem o DDI
+    } else if (telefoneLimpo.length === 11) {
+      telefoneLimpo = "55" + telefoneLimpo;
+    } else if (telefoneLimpo.length === 10) {
+      telefoneLimpo = "55" + telefoneLimpo;
+    } else {
       alert("Digite um telefone válido com DDD.");
       return;
     }
 
-    const ddd = telefoneLimpo.slice(0, 2);
-    const phone = telefoneLimpo.slice(2);
-
-    // 🔤 Nome sem acentos ou caracteres inválidos
+    // Remove acentos do nome
     nome = nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
     const payload = {
-      data: {
-        lead: {
-          name: nome,
-          phone: phone,
-          ddd: ddd,
-          email: ""
-        },
-        event: "create_lead"
-      }
+      nome: nome,
+      telefone: telefoneLimpo
     };
 
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 500);
-
-      await fetch("https://areadocliente.liguelead.com.br/api/crm/webhook/eda3f9c3-153a-4c4e-9aae-3f7eda66f018", {
+      await fetch("https://new-backend.botconversa.com.br/api/v1/webhooks-automation/catch/141688/QyCmVIY3kgae/", { // <-- Substitua pelo seu link
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: controller.signal
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
       });
-
-      clearTimeout(timeout);
     } catch (err) {
-      console.warn("Erro ao enviar para LigueLead:", err);
+      console.warn("Erro ao enviar para BotConversa:", err);
     }
 
     window.location.href = "https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232";
