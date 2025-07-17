@@ -238,25 +238,40 @@
     document.getElementById('popup-sound').play();
   }
 
-  document.getElementById('leadForm').addEventListener('submit', function(e) {
+  document.getElementById('leadForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const nome = this.nome.value;
     const telefone = this.telefone.value;
 
-    // Enviar para Webhook (não espera resposta)
-    fetch('https://areadocliente.liguelead.com.br/api/crm/webhook/b390036e-9852-4c3c-b5dd-d9207e795e82/lead2', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ nome, telefone })
-    });
+    const payload = {
+      nome,
+      telefone
+    };
 
-    // Redireciona imediatamente (sem esperar fetch)
+    try {
+      // Envia os dados e aguarda a resposta por no máximo 500ms
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 500); // Limite de tempo
+
+      await fetch('https://areadocliente.liguelead.com.br/api/crm/webhook/b390036e-9852-4c3c-b5dd-d9207e795e82/lead2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeout); // Se chegou aqui, envio foi ok
+    } catch (err) {
+      console.warn('Envio para webhook pode ter falhado:', err);
+      // Opcional: você pode registrar esse erro em um serviço de log
+    }
+
+    // Redireciona de qualquer forma após o envio ou timeout
     window.location.href = 'https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232';
   });
 </script>
+
 
 
 
