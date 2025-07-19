@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Top Comprador do Dia - XT660</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -84,6 +84,60 @@
       font-size: 0.9rem;
       color: #ccc;
     }
+    #popup-overlay {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+    }
+    #popup-box {
+      background: #fff;
+      border-radius: 10px;
+      max-width: 400px;
+      padding: 20px;
+      text-align: center;
+      margin: 100px auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      animation: popup-in 0.4s ease;
+    }
+    #popup-box h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #111;
+    }
+    #popup-box p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    #popup-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    #popup-box button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    #popup-box button:hover {
+      background: #218838;
+    }
+    @keyframes popup-in {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -103,9 +157,7 @@
     <p>💰 O top comprador do dia leva <strong>R$1.000,00 no PIX</strong>!</p>
     <p>📢 Tem 6 bilhetes premiado de 1.000,00</p>
 
-  
-    <!-- BOTÃO DE PARTICIPAÇÃO -->
-<button class="btn-participar" onclick="abrirPopup()">Quero Participar</button>
+    <button class="btn-participar" onclick="abrirPopup()">Quero Participar</button>
 
     <footer>
       Última atualização do ranking: 17/07 às 21h20<br>
@@ -113,176 +165,116 @@
     </footer>
   </div>
 
-  <div id="timer" style="font-size: 30px; font-weight: bold; color: red;"></div>
+  <!-- Pop-up -->
+  <div id="popup-overlay">
+    <div id="popup-box">
+      <h2>Quer receber atualizações imediatas do ranking?</h2>
+      <p>Deixe seu nome, telefone e e-mail. Iremos te avisar via SMS ou WhatsApp!</p>
+      <form id="leadForm">
+        <input type="text" name="nome" placeholder="Seu nome" required>
+        <input type="tel" name="telefone" placeholder="(DDD) 90000-0000" required>
+        <input type="email" name="email" placeholder="Seu e-mail" required>
+        <button type="submit">Receber Atualizações</button>
+      </form>
+    </div>
+  </div>
 
-<script>
-  function startCountdown(finalHour = 23, finalMinute = 59, finalSecond = 59) {
-    const now = new Date();
-    const end = new Date();
-    end.setHours(finalHour, finalMinute, finalSecond, 0); // Define hora final
+  <!-- Som de notificação -->
+  <audio id="popup-sound" preload="auto">
+    <source src="audio/notificacao.mp3" type="audio/mpeg">
+  </audio>
 
-    const timer = document.getElementById("timer");
+  <script>
+    function startCountdown(finalHour = 23, finalMinute = 59, finalSecond = 59) {
+      const timer = document.getElementById("timer");
+      const end = new Date();
+      end.setHours(finalHour, finalMinute, finalSecond, 0);
 
-    function update() {
-      const now = new Date();
-      const diff = end - now;
+      function update() {
+        const now = new Date();
+        const diff = end - now;
 
-      if (diff <= 0) {
-        timer.innerText = "00:00:00";
-        return;
+        if (diff <= 0) {
+          timer.innerText = "00:00:00";
+          return;
+        }
+
+        const hours = String(Math.floor(diff / 1000 / 60 / 60)).padStart(2, '0');
+        const minutes = String(Math.floor(diff / 1000 / 60) % 60).padStart(2, '0');
+        const seconds = String(Math.floor(diff / 1000) % 60).padStart(2, '0');
+
+        timer.innerText = `${hours}:${minutes}:${seconds}`;
       }
 
-      const hours = String(Math.floor(diff / 1000 / 60 / 60)).padStart(2, '0');
-      const minutes = String(Math.floor(diff / 1000 / 60) % 60).padStart(2, '0');
-      const seconds = String(Math.floor(diff / 1000) % 60).padStart(2, '0');
-
-      timer.innerText = `${hours}:${minutes}:${seconds}`;
+      update();
+      setInterval(update, 1000);
     }
 
-    update(); // Atualiza imediatamente ao carregar
-    setInterval(update, 1000);
-  }
+    startCountdown(22, 0, 0);
 
-  // 👇 Só mudar aqui para configurar a hora final
-  startCountdown(22, 0, 0); // Ex: 21:30:00
-</script>
-<!-- Estilos do Pop-up -->
-<style>
-  #popup-overlay {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.6);
-  }
-
-  #popup-box {
-    background: #fff;
-    border-radius: 10px;
-    max-width: 400px;
-    padding: 20px;
-    text-align: center;
-    margin: 100px auto;
-    box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    animation: popup-in 0.4s ease;
-  }
-
-  #popup-box h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #111;
-  }
-
-  #popup-box p {
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-
-  #popup-box input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-  }
-
-  #popup-box button {
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  #popup-box button:hover {
-    background: #218838;
-  }
-
-  @keyframes popup-in {
-    from { transform: scale(0.7); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-</style>
-
-
-<!-- Pop-up -->
-<div id="popup-overlay">
-  <div id="popup-box">
-    <h2>Quer receber atualizações imediatas do ranking?</h2>
-    <p>Deixe seu nome e telefone. Iremos te avisar via SMS ou WhatsApp!</p>
-    <form id="leadForm">
-      <input type="text" name="nome" placeholder="Seu nome" required>
-      <input type="tel" name="telefone" placeholder="(DDD) 90000-0000" required>
-      <button type="submit">Receber Atualizações</button>
-    </form>
-  </div>
-</div>
-
-<!-- Som de notificação local -->
-<audio id="popup-sound" preload="auto">
-  <source src="audio/notificacao.mp3" type="audio/mpeg">
-</audio>
-
-
-
-<script>
-  function abrirPopup() {
-    document.getElementById('popup-overlay').style.display = 'block';
-    document.getElementById('popup-sound').play();
-  }
-
-  document.getElementById('leadForm').addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    let nome = this.nome.value.trim();
-    let telefoneBruto = this.telefone.value;
-
-    // 🔁 Limpa todos os símbolos
-    let telefoneLimpo = telefoneBruto.replace(/\D/g, "");
-
-    // Remove DDI duplicado se necessário
-    if (telefoneLimpo.startsWith("55")) {
-      // ok, já tem o DDI
-    } else if (telefoneLimpo.length === 11) {
-      telefoneLimpo = "55" + telefoneLimpo;
-    } else if (telefoneLimpo.length === 10) {
-      telefoneLimpo = "55" + telefoneLimpo;
-    } else {
-      alert("Digite um telefone válido com DDD.");
-      return;
+    function abrirPopup() {
+      document.getElementById('popup-overlay').style.display = 'block';
+      const sound = document.getElementById('popup-sound');
+      try {
+        sound.play();
+      } catch (err) {
+        console.warn("Erro ao tocar som:", err);
+      }
     }
 
-    // Remove acentos do nome
-    nome = nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    document.getElementById('leadForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-    const payload = {
-      nome: nome,
-      telefone: telefoneLimpo
-    };
+      let nome = this.nome.value.trim();
+      let telefoneBruto = this.telefone.value;
+      let email = this.email.value.trim().toLowerCase();
+      let telefone = telefoneBruto.replace(/\D/g, "");
 
-    try {
-      await fetch("https://new-backend.botconversa.com.br/api/v1/webhooks-automation/catch/141688/QyCmVIY3kgae/", { // <-- Substitua pelo seu link
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-    } catch (err) {
-      console.warn("Erro ao enviar para BotConversa:", err);
-    }
+      if (!telefone.startsWith("55")) {
+        if (telefone.length === 11 || telefone.length === 10) {
+          telefone = "55" + telefone;
+        } else {
+          alert("Digite um telefone válido com DDD.");
+          return;
+        }
+      }
 
-    window.location.href = "https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232";
-  });
-</script>
+      nome = nome.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
+      const payloadBot = { nome, telefone };
+      const payloadBrevo = {
+        email: email,
+        attributes: { FIRSTNAME: nome },
+        listIds: [SEU_ID_LISTA], // substitua pelo ID da sua lista
+        updateEnabled: true
+      };
 
+      try {
+        await fetch("https://new-backend.botconversa.com.br/api/v1/webhooks-automation/catch/141688/QyCmVIY3kgae/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payloadBot)
+        });
+      } catch (err) {
+        console.warn("Erro BotConversa:", err);
+      }
+
+      try {
+        await fetch("https://api.brevo.com/v3/contacts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "accept": "application/json",
+            "api-key": "jZpgwcKJSkyvExQ2" // substitua pela sua chave da Brevo
+          },
+          body: JSON.stringify(payloadBrevo)
+        });
+      } catch (err) {
+        console.warn("Erro Brevo:", err);
+      }
+
+      window.location.href = "https://kadedograu.com/sorteio/a-xt660-mais-zera-do-brasil-232";
+    });
+  </script>
 </body>
 </html>
