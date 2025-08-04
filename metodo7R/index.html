@@ -6,6 +6,26 @@
   <title>Método 7R</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&display=swap" rel="stylesheet" />
   <style>
+
+    #top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #000;
+  color: #00FF00;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 0;
+  font-size: 16px;
+  z-index: 9999;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+#top-bar.expired {
+  background: #ff0000;
+  color: #fff;
+}
+
     body {
       margin: 0;
       padding: 0;
@@ -146,6 +166,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </head>
 <body>
 
+  <div id="top-bar">
+  ⚠️ Essa página sai do ar em <span id="timer">30:00</span>
+</div>
+
+
   <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MC3X4VRC"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -153,12 +178,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="overlay"></div>
   <header>
-    <h1>Os 7 passos validados para criar e vender rifas do absoluto zero</h1>
+    <h1>O Segredo Que Ninguém Conta Pra Quem Quer Viver de Sorteios (Mesmo Sem Fama)</h1>
   </header>
 
-  <div class="video-container">
+<!-- Carrega o SDK da Vturb -->
+<script type="text/javascript">
+  var sdk = document.createElement("script");
+  sdk.src = "https://scripts.converteai.net/lib/js/smartplayer-wc/v4/sdk.js";
+  sdk.async = true;
+  document.head.appendChild(sdk);
+</script>
+
+<!-- Player novo com mesmo estilo -->
+<div class="video-container">
   <vturb-smartplayer
-    id="vid-68881b80a7f5e6f159180d4d"
+    id="vid-68904b16f5739e87028b438d"
     style="display: block; margin: 0 auto; width: 100%; max-width: 400px;
            border-radius: 12px;
            box-shadow: 0 0 15px 3px #228B22, 0 0 30px 6px #228B22;">
@@ -167,10 +201,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script type="text/javascript">
   var s = document.createElement("script");
-  s.src = "https://scripts.converteai.net/c77cedbb-f517-4bd6-98c1-896cb6ed2678/players/68881b80a7f5e6f159180d4d/v4/player.js";
+  s.src = "https://scripts.converteai.net/44649531-3376-4907-bc80-38cbdbd94763/players/68904b16f5739e87028b438d/v4/player.js";
   s.async = true;
   document.head.appendChild(s);
 </script>
+
 
 
 
@@ -201,19 +236,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
-  <script>
-    // Exibir o CTA após tempo da VSL (por exemplo, 380s = 6:20)
-    setTimeout(() => {
-      document.getElementById('cta').style.display = 'block';
-      document.getElementById('cta').scrollIntoView({ behavior: 'smooth' });
-    }, 220000);
-  </script>
 
   <!-- Termos de Uso e Política de Privacidade -->
 <div style="margin-top: 32px; margin-bottom: 60px; text-align: center;">
   <a href="termos.html" style="color: white; text-decoration: none; margin: 0 8px;">Termos de Uso</a> |
   <a href="privacidade.html" style="color: white; text-decoration: none; margin: 0 8px;">Política de Privacidade</a>
 </div>
+
+<script>
+  const TIMER_DURATION_MINUTES = 30;
+  const TIMER_KEY = "vsl_timer_start";
+  const CTA_KEY = "vsl_cta_shown";
+
+  function startTimer() {
+    const timerEl = document.getElementById("timer");
+    const topBar = document.getElementById("top-bar");
+
+    let startTime = localStorage.getItem(TIMER_KEY);
+    if (!startTime) {
+      startTime = new Date().getTime();
+      localStorage.setItem(TIMER_KEY, startTime);
+    } else {
+      startTime = parseInt(startTime);
+    }
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const distance = (TIMER_DURATION_MINUTES * 60 * 1000) - (now - startTime);
+      
+      if (distance <= 0) {
+        timerEl.textContent = "00:00";
+        topBar.classList.add("expired");
+        topBar.innerHTML = "⏰ O tempo esgotou! Essa é sua última chance de assistir.";
+        return;
+      }
+
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      timerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      setTimeout(updateTimer, 1000);
+    }
+
+    updateTimer();
+  }
+
+  function controlCTA() {
+    const cta = document.getElementById("cta");
+
+    if (localStorage.getItem(CTA_KEY)) {
+      cta.style.display = "block";
+      return;
+    }
+
+    // Exibe o CTA após X segundos (ex: 380s = 6min 20s)
+    setTimeout(() => {
+      cta.style.display = "block";
+      localStorage.setItem(CTA_KEY, "true");
+    }, 242000);
+  }
+
+  startTimer();
+  controlCTA();
+</script>
+
 
 </body>
 </html>
