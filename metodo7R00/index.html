@@ -181,6 +181,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h1>O Segredo Que Ninguém Conta Pra Quem Quer Viver de Sorteios (Mesmo Sem Fama)</h1>
   </header>
 
+<!-- Container do vídeo Vturb com estilo personalizado -->
+<div class="video-container">
+  <vturb-smartplayer
+    id="vid-68915d08dc25ec83e1d16df7"
+    style="display: block; margin: 0 auto; width: 100%; max-width: 400px;
+           border-radius: 12px;
+           box-shadow: 0 0 15px 3px #228B22, 0 0 30px 6px #228B22;">
+  </vturb-smartplayer>
+</div>
+
 <!-- Carrega o SDK da Vturb -->
 <script type="text/javascript">
   var sdk = document.createElement("script");
@@ -189,22 +199,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   document.head.appendChild(sdk);
 </script>
 
-<!-- Player novo com mesmo estilo -->
-<div class="video-container">
-  <vturb-smartplayer
-    id="vid-68904b16f5739e87028b438d"
-    style="display: block; margin: 0 auto; width: 100%; max-width: 400px;
-           border-radius: 12px;
-           box-shadow: 0 0 15px 3px #228B22, 0 0 30px 6px #228B22;">
-  </vturb-smartplayer>
-</div>
-
+<!-- Carrega o player específico deste vídeo -->
 <script type="text/javascript">
   var s = document.createElement("script");
-  s.src = "https://scripts.converteai.net/44649531-3376-4907-bc80-38cbdbd94763/players/68904b16f5739e87028b438d/v4/player.js";
+  s.src = "https://scripts.converteai.net/44649531-3376-4907-bc80-38cbdbd94763/players/68915d08dc25ec83e1d16df7/v4/player.js";
   s.async = true;
   document.head.appendChild(s);
 </script>
+
 
 
 
