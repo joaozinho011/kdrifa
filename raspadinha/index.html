@@ -213,8 +213,85 @@
       background-color: var(--accent);
     }
   </style>
+
+  <style>
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .popup-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .popup {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 350px;
+    width: 90%;
+    animation: popupScale 0.3s ease;
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+  }
+  .popup h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .popup p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #555;
+  }
+  .popup button {
+  background: #4ade80; /* verde claro */
+  color: #121212;      /* texto escuro para contraste */
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(74, 222, 128, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popup button:hover {
+  background: #22c55e; /* verde mais escuro */
+  box-shadow: 0 6px 14px rgba(34, 197, 94, 0.7);
+}
+
+  @keyframes popupScale {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
+
 </head>
 <body>
+
+<div id="popup-overlay" class="popup-overlay">
+  <div class="popup">
+    <h2>🎁LIBERADO START 160 OKM!</h2>
+    <img src="img/motoo.jpg" alt="Imagem do Card" style="width:100%; border-radius:8px; margin-bottom:16px;" />
+    <p>Imagina com 1 clique, Desbloquear uma Moto. R$20.000,00 reais </p>
+     <audio id="popup-audio" src="audio/popup.mp3" preload="auto"></audio>
+    <button id="popup-close">Desbloquear Agora</button>
+  </div>
+</div>
+
+
   <div class="wrap" role="main" aria-label="Raspadinha gamificada">
     
     <!-- Banner horizontal topo -->
@@ -225,8 +302,8 @@
     <header>
       <div class="logo" aria-hidden="true"></div>
       <div>
-        <h1>Ganhe R$10 para começar — Dobre ao depositar!</h1>
-        <p class="lead">Raspe a área, ganhe crédito instantâneo e entre preparado na plataforma. Ao depositar, o valor é dobrado na raspadinha.</p>
+        <h1>Ganhe Bônus para começar — Encontre 3 moto e ganhe a moto ou o pix na hora!!</h1>
+        <p class="lead">Raspe a área, ganhe crédito instantâneo e entre preparado para ganhar na raspadinha.</p>
       </div>
     </header>
 
@@ -238,7 +315,7 @@
 
           <div style="display:flex;gap:8px;margin-top:10px">
             <button id="resetScratch" class="btn ghost">Reiniciar</button>
-            <button id="claimBtn" class="btn" disabled>Ir para plataforma</button>
+            <button id="claimBtn" class="btn" disabled>Participar agora</button>
           </div>
 
           <div id="voucherBox" class="voucher" aria-live="assertive" aria-atomic="true">
@@ -257,15 +334,15 @@
     <!-- ETAPA 2: TUTORIAL APÓS CLICAR IR PARA PLATAFORMA -->
     <div id="tutorialSection" aria-live="polite" aria-label="Tutorial para resgatar o prêmio">
       <div class="tutorial-step active" data-step="1">
-        <img src="img/tutorial-cadastro.jpg" alt="Tutorial passo 1 - Cadastro" />
-        <p>Passo 1: Cadastre-se na plataforma para começar a jogar.</p>
+        <img src="img/cadastro.png" alt="Tutorial passo 1 - Cadastro" />
+        <p>Passo 1: Cadastre-se na plataforma para participar.</p>
       </div>
       <div class="tutorial-step" data-step="2">
-        <img src="img/tutorial-deposito.jpg" alt="Tutorial passo 2 - Depósito" />
+        <img src="img/deposito.png" alt="Tutorial passo 2 - Depósito" />
         <p>Passo 2: Faça o depósito para dobrar seu saldo e liberar prêmios.</p>
       </div>
       <div class="tutorial-step" data-step="3">
-        <img src="img/tutorial-jogo.jpg" alt="Tutorial passo 3 - Como jogar" />
+        <img src="img/jogar.png" alt="Tutorial passo 3 - Como jogar" />
         <p>Passo 3: Jogue a raspadinha e aproveite seus ganhos!</p>
       </div>
 
@@ -277,11 +354,11 @@
     </div>
 
     <footer>
-      <div class="muted">Promoção sujeita a termos. Oferta do dobro válida somente na plataforma rasperapido.</div>
+      <div class="muted">Promoção sujeita a termos. Oferta em dobro válida somente na plataforma rasperapido.</div>
     </footer>
   </div>
 
-  <audio id="coinSound" src="audio/coin.mp3" preload="auto"></audio>
+  <audio id="coinSound" src="audio/dinheiro.mp3" preload="auto"></audio>
 
   <script>
   /* ====== CONFIG ====== */
@@ -532,5 +609,46 @@
   })
 
   </script>
+
+<script>
+  const popupOverlay = document.getElementById('popup-overlay');
+  const popupClose = document.getElementById('popup-close');
+  const popupAudio = document.getElementById('popup-audio');
+
+  function abrirPopup() {
+    popupOverlay.classList.add('active');
+    // Tenta tocar áudio
+    popupAudio.currentTime = 0;
+    popupAudio.play().catch(e => {
+      // Se não tocar, espera o clique do usuário para tocar
+      console.log('Autoplay bloqueado, aguardando interação do usuário.');
+      waitUserInteraction();
+    });
+  }
+
+  popupClose.addEventListener('click', () => {
+    popupOverlay.classList.remove('active');
+    popupAudio.pause();
+    popupAudio.currentTime = 0;
+  });
+
+  // Tenta abrir o popup após 2 segundos da carga da página
+  window.addEventListener('load', () => {
+    setTimeout(abrirPopup, 2000);
+  });
+
+  // Função que aguarda o clique do usuário para tocar o áudio
+  function waitUserInteraction() {
+    function onUserInteraction() {
+      popupAudio.play().catch(() => {});
+      document.body.removeEventListener('click', onUserInteraction);
+      document.body.removeEventListener('touchstart', onUserInteraction);
+    }
+    document.body.addEventListener('click', onUserInteraction);
+    document.body.addEventListener('touchstart', onUserInteraction);
+  }
+</script>
+
+
 </body>
 </html>
